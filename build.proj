@@ -139,7 +139,7 @@
           ContinueOnError="false" />
 
     <!--Restore the xunit runner needed to run unit tests-->
-    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\packages.config -PackagesDirectory -PackagesDirectory $(LibrarySourceFolder)\packages" />
+    <Exec Command="$(NuGetCommand) restore $(MSBuildProjectDirectory)\packages.config -PackagesDirectory $(MSBuildProjectDirectory)\packages $(NuGetRestoreConfigSwitch)" />
     
     <Delete Files="$(NuGetRestoreConfigFile)" />
   </Target>
