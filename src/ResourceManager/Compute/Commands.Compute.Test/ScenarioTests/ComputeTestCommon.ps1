@@ -144,13 +144,14 @@ function Create-VirtualMachine($rgname, $vmname, $loc)
     New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
     Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
     $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
+    $storageBlobBaseUri = $stoaccount.PrimaryEndpoints.Blob;
 
     $osDiskName = 'osDisk';
     $osDiskCaching = 'ReadWrite';
-    $osDiskVhdUri = "https://$stoname.blob.core.windows.net/test/os.vhd";
-    $dataDiskVhdUri1 = "https://$stoname.blob.core.windows.net/test/data1.vhd";
-    $dataDiskVhdUri2 = "https://$stoname.blob.core.windows.net/test/data2.vhd";
-    $dataDiskVhdUri3 = "https://$stoname.blob.core.windows.net/test/data3.vhd";
+    $osDiskVhdUri = "${storageBlobBaseUri}test/os.vhd";
+    $dataDiskVhdUri1 = "${storageBlobBaseUri}test/data1.vhd";
+    $dataDiskVhdUri2 = "${storageBlobBaseUri}test/data2.vhd";
+    $dataDiskVhdUri3 = "${storageBlobBaseUri}test/data3.vhd";
 
     $p = Set-AzureRmVMOSDisk -VM $p -Name $osDiskName -VhdUri $osDiskVhdUri -Caching $osDiskCaching -CreateOption FromImage;
 
@@ -178,7 +179,7 @@ function Create-VirtualMachine($rgname, $vmname, $loc)
     $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
     $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
     $computerName = 'test';
-    $vhdContainer = "https://$stoname.blob.core.windows.net/test";
+    $vhdContainer = "${storageBlobBaseUri}test";
 
     $p = Set-AzureRmVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred -ProvisionVMAgent;
 
@@ -493,12 +494,12 @@ function Assert-OutputContains
 # Create a SAS Uri
 function Get-SasUri
 {
-    param ([string] $storageAccount, [string] $storageKey, [string] $container, [string] $file, [TimeSpan] $duration, [Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions] $type)
+    param ([Microsoft.Azure.Commands.Management.Storage.Models.PSStorageAccount] $storageAccount, [string] $storageKey, [string] $container, [string] $file, [TimeSpan] $duration, [Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPermissions] $type)
 
-    $uri = [string]::Format("https://{0}.blob.core.windows.net/{1}/{2}", $storageAccount, $container, $file);
+    $uri = [string]::Format("{0}{1}/{2}", $storageAccount.PrimaryEndpoints.Blob, $container, $file);
 
     $destUri = New-Object -TypeName System.Uri($uri);
-    $cred = New-Object -TypeName Microsoft.WindowsAzure.Storage.Auth.StorageCredentials($storageAccount, $storageKey);
+    $cred = New-Object -TypeName Microsoft.WindowsAzure.Storage.Auth.StorageCredentials($storageAccount.StorageAccountName, $storageKey);
     $destBlob = New-Object -TypeName Microsoft.WindowsAzure.Storage.Blob.CloudPageBlob($destUri, $cred);
     $policy = New-Object Microsoft.WindowsAzure.Storage.Blob.SharedAccessBlobPolicy;
     $policy.Permissions = $type;

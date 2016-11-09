@@ -102,9 +102,12 @@ function setup_image_and_disks
     param ([string] $loc, [string] $rgname, [string] $stoname, $vmconfig)
 
     $st = Write-Verbose "Setting up image and disks of VM config object jfor '${loc}', '${rgname}' and '${stoname}' - Start";
+    
+    $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
+    $storageBlobBaseUri = $stoaccount.PrimaryEndpoints.Blob;
 
     $osDiskName = 'osDisk';
-    $osDiskVhdUri = "https://$stoname.blob.core.windows.net/test/os.vhd";
+    $osDiskVhdUri = "${storageBlobBaseUri}test/os.vhd";
     $osDiskCaching = 'ReadWrite';
 
     $vmconfig = Set-AzureRmVMOSDisk -VM $vmconfig -Name $osDiskName -VhdUri $osDiskVhdUri -Caching $osDiskCaching -CreateOption FromImage;
