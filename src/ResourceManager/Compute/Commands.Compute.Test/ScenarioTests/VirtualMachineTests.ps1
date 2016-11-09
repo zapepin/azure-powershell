@@ -61,7 +61,7 @@ function Test-VirtualMachine
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -265,7 +265,7 @@ function Test-VirtualMachinePiping
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -581,7 +581,7 @@ function Test-VirtualMachineSizeAndUsage
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -751,7 +751,7 @@ function Test-VirtualMachinePIRv2
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -860,7 +860,7 @@ function Test-VirtualMachineCapture
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -980,7 +980,7 @@ function Test-VirtualMachineDataDisk
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1173,7 +1173,7 @@ function Test-VirtualMachineDataDiskNegative
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1252,7 +1252,7 @@ function Test-VirtualMachinePlan
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1332,7 +1332,7 @@ function Test-VirtualMachinePlan2
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = Get-DefaultStorageType;
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1407,7 +1407,7 @@ function Test-VirtualMachineTags
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1494,7 +1494,7 @@ function Test-VirtualMachineWithVMAgentAutoUpdate
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1598,7 +1598,7 @@ function Test-LinuxVirtualMachine
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -1830,7 +1830,7 @@ function Test-VirtualMachineWithDifferentStorageResource
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname_storage -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname_storage -Name $stoname;
 
@@ -1959,7 +1959,7 @@ function Test-VirtualMachineWithEmptyAuc
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -2235,7 +2235,7 @@ function Test-VirtualMachineRedeploy
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 

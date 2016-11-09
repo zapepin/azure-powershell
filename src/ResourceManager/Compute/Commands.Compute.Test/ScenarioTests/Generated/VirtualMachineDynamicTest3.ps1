@@ -43,7 +43,7 @@ function get_created_storage_account_name
     $st = Write-Verbose "Creating and getting storage account for '${loc}' and '${rgname}' - Start";
 
     $stoname = $rgname + 'sto';
-    $stotype = 'Standard_GRS';
+    $stotype = Get-DefaultStorageType -Location $loc
 
     $st = Write-Verbose "Creating and getting storage account for '${loc}' and '${rgname}' - '${stotype}' & '${stoname}'";
 

@@ -52,7 +52,7 @@ function Test-SingleNetworkInterface
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -174,7 +174,7 @@ function Test-SingleNetworkInterfaceDnsSettings
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -283,7 +283,7 @@ function Test-MultipleNetworkInterface
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -395,7 +395,7 @@ function Test-AddNetworkInterface
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 

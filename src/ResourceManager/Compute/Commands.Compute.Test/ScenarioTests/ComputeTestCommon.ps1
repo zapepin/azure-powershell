@@ -140,7 +140,7 @@ function Create-VirtualMachine($rgname, $vmname, $loc)
 
     # Storage Account (SA)
     $stoname = 'sto' + $rgname;
-    $stotype = 'Standard_GRS';
+    $stotype = Get-DefaultStorageType -Location $loc;
     New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
     Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
     $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -332,7 +332,24 @@ Gets default storage type string
 #>
 function Get-DefaultStorageType
 {
-    return 'Standard_GRS';
+    param([string] $Location = $null)
+
+    if ([string]::IsNullOrEmpty($Location))
+    {
+        $Location = Get-ComputeVMLocation
+    }
+
+    $defaultStorageType = $null
+    if ($Location -eq 'local')
+    {
+        $defaultStorageType = 'Standard_LRS'
+    }
+    else
+    {
+        $defaultStorageType = 'Standard_GRS'
+    }
+
+    return $defaultStorageType
 }
 
 <#

@@ -29,7 +29,7 @@ function Test-DiagnosticsExtensionBasic
 
         # This is the storage name defined in config file
         $storagename = 'definedinconfigstorage'
-        $storagetype = 'Standard_GRS'
+        $storagetype = Get-DefaultStorageType -Location $loc
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $storagename -Location $loc -Type $storagetype
 
         # If diagnostics extension already exist, remove it
@@ -81,7 +81,7 @@ function Test-DiagnosticsExtensionSepcifyStorageAccountName
 
         # This storage name will be used in command line directly when set diagnostics extension
         $storagename = 'definedincommandline'
-        $storagetype = 'Standard_GRS'
+        $storagetype = Get-DefaultStorageType -Location $loc
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $storagename -Location $loc -Type $storagetype
 
         # If diagnostics extension already exist, remove it
@@ -160,7 +160,7 @@ function Test-DiagnosticsExtensionSupportJsonConfig
         $vm = Create-VirtualMachine -rgname $rgname -loc $loc
         $vmname = $vm.Name
         $storagename = $vmname + "storage"
-        $storagetype = 'Standard_GRS'
+        $storagetype = Get-DefaultStorageType -Location $loc
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $storagename -Location $loc -Type $storagetype
 
         # If diagnostics extension already exist, remove it

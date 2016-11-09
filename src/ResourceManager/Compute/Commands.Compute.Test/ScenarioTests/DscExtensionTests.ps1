@@ -43,7 +43,7 @@ function Test-GetAzureRmVMDscExtension
 
         # Storage Account 
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         

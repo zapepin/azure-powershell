@@ -57,7 +57,7 @@ function Test-VirtualMachineBootDiagnostics
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -326,7 +326,7 @@ function Test-LinuxVirtualMachineBootDiagnostics
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
@@ -437,12 +437,12 @@ function Test-VirtualMachineBootDiagnosticsSet
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         $stoaccount = Get-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname;
 
         $stoname2 = $stoname + 'add';
-        $stotype2 = 'Standard_GRS';
+        $stotype2 = Get-DefaultStorageType -Location $loc;
         New-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname2 -Location $loc -Type $stotype2;
         $stoaccount2 = Get-AzureRMStorageAccount -ResourceGroupName $rgname -Name $stoname2;
 

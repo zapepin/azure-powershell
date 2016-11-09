@@ -51,7 +51,7 @@ function Test-VirtualMachineExtension
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -191,7 +191,7 @@ function Test-VirtualMachineExtensionUsingHashTable
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -357,7 +357,7 @@ function Test-VirtualMachineCustomScriptExtension
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -525,7 +525,7 @@ function Test-VirtualMachineCustomScriptExtensionSecureExecution
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -649,7 +649,7 @@ function Test-VirtualMachineCustomScriptExtensionFileUri
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -807,7 +807,7 @@ function Test-VirtualMachineAccessExtension
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -1090,7 +1090,7 @@ function Test-VirtualMachineBginfoExtension
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
@@ -1243,7 +1243,7 @@ function Test-VirtualMachineExtensionWithSwitch
 
         # Storage Account (SA)
         $stoname = 'sto' + $rgname;
-        $stotype = 'Standard_GRS';
+        $stotype = Get-DefaultStorageType -Location $loc;
         New-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname -Location $loc -Type $stotype;
         Retry-IfException { $global:stoaccount = Get-AzureRmStorageAccount -ResourceGroupName $rgname -Name $stoname; }
         $stokey = (Get-AzureRmStorageAccountKey -ResourceGroupName $rgname -Name $stoname).Key1;
