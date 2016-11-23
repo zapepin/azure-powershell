@@ -1321,7 +1321,7 @@ function Test-VirtualMachinePlan2
         New-AzureRmResourceGroup -Name $rgname -Location $loc -Force;
         
         # VM Profile & Hardware
-        $vmsize = Get-DefaultVMSize;
+        $vmsize = Get-DefaultVMSize -location $loc;
         $vmname = 'vm' + $rgname;
         $p = New-AzureRmVMConfig -VMName $vmname -VMSize $vmsize;
         # NRP
@@ -1364,7 +1364,7 @@ function Test-VirtualMachinePlan2
 
         # Image Reference
         # Pick a VMM Image
-        $imgRef = (Get-MarketplaceImage)[0];
+        $imgRef = (Get-MarketplaceImage -location $loc)[0];
         $plan = $imgRef.PurchasePlan;
         $p = Set-AzureRmVMSourceImage -VM $p -PublisherName $imgRef.PublisherName -Offer $imgRef.Offer -Skus $imgRef.Skus -Version $imgRef.Version;
         $p = Set-AzureRmVMPlan -VM $p -Name $plan.Name -Publisher $plan.Publisher -Product $plan.Product;
