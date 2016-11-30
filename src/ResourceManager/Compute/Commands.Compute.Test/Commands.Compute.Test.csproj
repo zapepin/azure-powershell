@@ -218,6 +218,7 @@
     <Content Include="ConfigFiles\DiagnosticsExtensionConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Commands.Compute.Test.nuspec" />
     <None Include="ScenarioTests\AddVhdTests.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

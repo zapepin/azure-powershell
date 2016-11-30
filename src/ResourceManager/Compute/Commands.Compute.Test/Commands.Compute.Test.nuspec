@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata minClientVersion="2.5">
+    <id>$id$</id>
+    <title>$title$</title>
+    <version>$version$-preview</version>
+    <authors>Microsoft</authors>
+    <owners>azure-sdk, Microsoft</owners>
+    <licenseUrl>http://aka.ms/windowsazureapache2</licenseUrl>
+    <projectUrl>https://github.com/Azure/azure-powershell</projectUrl>
+    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288890</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Azure PowerShell SDK Compute Tests</description>
+    <copyright>Copyright © Microsoft Corporation</copyright>
+    <tags>Microsoft "Microsoft Azure" Azure cloud</tags>
+  </metadata>
+  <files>
+    <file src="bin\Debug\**\*.*" target="" />
+  </files>
+</package>
