@@ -43,8 +43,22 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
         private AzureAccount testAccount;
 
+        private Lazy<string> packageDirectory = new Lazy<string>(() => Environment.GetEnvironmentVariable("AZURE_MODULE_PATH") ?? @"..\..\..\..\Package\Debug");
+
         private const string PackageDirectoryFromCommon = @"..\..\..\..\Package\Debug";
-        public string PackageDirectory = @"..\..\..\..\..\Package\Debug";
+
+        ////        public string PackageDirectory = @"..\..\..\..\..\Package\Debug";
+
+        // Point to installed module
+        ////public string PackageDirectory = @"C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell";
+
+        public string PackageDirectory
+        {
+            get
+            {
+                return this.packageDirectory.Value;
+            }
+        }
 
         protected List<string> modules;
 
