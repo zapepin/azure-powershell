@@ -29,6 +29,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure.Commands.Common;
 
 namespace Microsoft.WindowsAzure.Commands.ScenarioTest
@@ -36,7 +37,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
     public class EnvironmentSetupHelper
     {
         private static string testEnvironmentName = "__test-environment";
-
+        
         private static string testSubscriptionName = "__test-subscriptions";
 
         private AzureSubscription testSubscription;
@@ -363,7 +364,13 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
             foreach (string moduleName in modules)
             {
-                powershell.AddScript(string.Format("Import-Module \".\\{0}\"", moduleName));
+                string modulePath = moduleName;
+                if (!Path.IsPathRooted(modulePath))
+                {
+                    modulePath = string.Format(".\\{0}", moduleName);
+                }
+
+                powershell.AddScript(string.Format("Import-Module \"{0}\"", modulePath));
             }
 
             powershell.AddScript("$VerbosePreference='Continue'");
