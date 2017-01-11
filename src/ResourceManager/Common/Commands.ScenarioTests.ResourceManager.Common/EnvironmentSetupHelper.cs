@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         private AzureSubscription testSubscription;
 
         private AzureAccount testAccount;
-
+        
         private Lazy<string> packageDirectory = new Lazy<string>(() => Environment.GetEnvironmentVariable("AZURE_MODULE_PATH") ?? @"..\..\..\..\Package\Debug");
 
         private const string PackageDirectoryFromCommon = @"..\..\..\..\Package\Debug";
@@ -58,6 +58,14 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
             get
             {
                 return this.packageDirectory.Value;
+            }
+        }
+
+        public bool UseInstalledPackages
+        {
+            get
+            {
+                return string.Equals(this.PackageDirectory, "INSTALLED", StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -93,8 +101,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         {
             get
             {
-                return Path.Combine(this.PackageDirectory, 
-                                    @"ResourceManager\AzureResourceManager\AzureRM.Profile\AzureRM.Profile.psd1");
+                return this.GetRMModulePath("AzureRM.Profile.psd1");
             }
         }
 
@@ -102,8 +109,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         {
             get
             {
-                return Path.Combine(this.PackageDirectory,
-                                    @"ResourceManager\AzureResourceManager\AzureRM.Resources\AzureRM.Resources.psd1");
+                return this.GetRMModulePath("AzureRM.Resources.psd1");
             }
         }
 
@@ -111,8 +117,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         {
             get
             {
-                return Path.Combine(this.PackageDirectory, 
-                                    @"ResourceManager\AzureResourceManager\AzureRM.Storage\AzureRM.Storage.psd1");
+                return this.GetRMModulePath("AzureRM.Storage.psd1");
             }
         }
 
@@ -121,16 +126,26 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         {
             get
             {
-                return Path.Combine(this.PackageDirectory,
-                                     @"ResourceManager\AzureResourceManager\Azure.Storage\Azure.Storage.psd1");
+                return this.GetRMModulePath("Azure.Storage.psd1");
             }
         }
 
         public string GetRMModulePath(string psd1FileName)
         {
             string basename = Path.GetFileNameWithoutExtension(psd1FileName);
-            return Path.Combine(this.PackageDirectory, 
-                                 @"ResourceManager\AzureResourceManager\" + basename + @"\" + psd1FileName); 
+
+            string modulePath;
+            if (this.UseInstalledPackages)
+            {
+                modulePath = basename;
+            }
+            else
+            {
+                modulePath = Path.Combine(this.PackageDirectory,
+                                 @"ResourceManager\AzureResourceManager\" + basename + @"\" + psd1FileName);
+            }
+
+            return modulePath;
         }
         /// <summary>
         /// Loads DummyManagementClientHelper with clients and throws exception if any client is missing.
@@ -270,18 +285,21 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
         public void SetupModules(AzureModule mode, params string[] modules)
         {
             this.modules = new List<string>();
-            if (mode == AzureModule.AzureProfile)
+            if (!this.UseInstalledPackages)
             {
-                this.modules.Add(Path.Combine(PackageDirectory, @"ServiceManagement\Azure\Azure.psd1"));
-                this.modules.Add(Path.Combine(PackageDirectory, @"ResourceManager\AzureResourceManager\AzureResourceManager.psd1"));
-            }
-            else if (mode == AzureModule.AzureServiceManagement)
-            {
-                this.modules.Add(Path.Combine(PackageDirectory, @"ServiceManagement\Azure\Azure.psd1"));
+                if (mode == AzureModule.AzureProfile)
+                {
+                    this.modules.Add(Path.Combine(PackageDirectory, @"ServiceManagement\Azure\Azure.psd1"));
+                    this.modules.Add(Path.Combine(PackageDirectory, @"ResourceManager\AzureResourceManager\AzureResourceManager.psd1"));
+                }
+                else if (mode == AzureModule.AzureServiceManagement)
+                {
+                    this.modules.Add(Path.Combine(PackageDirectory, @"ServiceManagement\Azure\Azure.psd1"));
+                }
             }
             
-            this.modules.Add("Assert.ps1");
-            this.modules.Add("Common.ps1");
+            this.modules.Add(".\\Assert.ps1");
+            this.modules.Add(".\\Common.ps1");
             this.modules.AddRange(modules);
         }
 
@@ -364,13 +382,7 @@ namespace Microsoft.WindowsAzure.Commands.ScenarioTest
 
             foreach (string moduleName in modules)
             {
-                string modulePath = moduleName;
-                if (!Path.IsPathRooted(modulePath))
-                {
-                    modulePath = string.Format(".\\{0}", moduleName);
-                }
-
-                powershell.AddScript(string.Format("Import-Module \"{0}\"", modulePath));
+                powershell.AddScript(string.Format("Import-Module \".\\{0}\"", moduleName));
             }
 
             powershell.AddScript("$VerbosePreference='Continue'");
